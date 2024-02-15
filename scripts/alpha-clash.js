@@ -11,33 +11,46 @@ function handleKeyboardKeyUpEvent(event) {
 
     // check matched or not
     if (playerPressed === expectedAlphabet) {
+        const currentScore = getTextElementValueById('current-score');
+        const updatedScore = currentScore + 1;
+        setTextElementValueById('current-score', updatedScore);
+
+
         // update score
         // get current score:
-        const currentScoreElement = document.getElementById('current-score');
-        const currentScoreText = currentScoreElement.innerText;
-        const currentScore = parseInt(currentScoreText);
+        // const currentScoreElement = document.getElementById('current-score');
+        // const currentScoreText = currentScoreElement.innerText;
+        // const currentScore = parseInt(currentScoreText);
 
         // increase the score by 1
-        const newScore = currentScore + 1;
+        // const newScore = currentScore + 1;
 
-        // show the updated score
-        currentScoreElement.innerText = newScore;
+        // // show the updated score
+        // currentScoreElement.innerText = newScore;
 
         // start a new round
         removeBackgroundColorById(expectedAlphabet);
         continueGame();
     }
     else {
-        // get the current life number 
-        const currentLifeElement = document.getElementById('current-life');
-        const currentLifeText = currentLifeElement.innerText;
-        const currentLife = parseInt(currentLifeText);
+        const currentLife = getTextElementValueById('current-life');
+        const updatedLife = currentLife - 1;
+        setTextElementValueById('current-life', updatedLife);
 
-        // reduce the life count
-        const newLife = currentLife - 1;
+        if (updatedLife === 0) {
+            gameOver();
+        }
 
-        // display updated life
-        currentLifeElement.innerText = newLife;
+        // // get the current life number 
+        // const currentLifeElement = document.getElementById('current-life');
+        // const currentLifeText = currentLifeElement.innerText;
+        // const currentLife = parseInt(currentLifeText);
+
+        // // reduce the life count
+        // const newLife = currentLife - 1;
+
+        // // display updated life
+        // currentLifeElement.innerText = newLife;
     }
 }
 
@@ -59,7 +72,19 @@ function continueGame() {
 
 
 function play() {
+    // hide everything show only the playground
     hideElementById('home-screen');
+    hideElementById('final-score');
     showElementById('play-ground');
+
+    // reset score and life
+    setTextElementValueById('current-life', 5);
+    setTextElementValueById('current-score', 0);
+
     continueGame();
+}
+
+function gameOver() {
+    hideElementById('play-ground');
+    showElementById('final-score');
 }
